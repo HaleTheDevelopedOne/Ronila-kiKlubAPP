@@ -1,12 +1,44 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Ronilački klub - Dashboard</h1>
-  <p>Aplikacija radi ✅</p>
+  <div class="header">
+    <div>
+      <h1 class="title">Dashboard</h1>
+      <p class="subtitle">Upravljanje članovima, zaronima i opremom — sve na jednom mjestu.</p>
+    </div>
+  </div>
 
-  <ul>
-    <li><a href="{% url 'member_list' %}">Upravljanje članovima</a></li>
-    <li><a href="{% url 'dive_list' %}">Upravljanje zaronima</a></li>
-    <li><a href="{% url 'equipment_list' %}">Upravljanje opremom</a></li>
-  </ul>
+  <div class="row">
+    <div class="card">
+      <h2 style="margin:0 0 6px;">Članovi</h2>
+      <p class="muted" style="margin:0 0 14px;">Pregled, dodavanje i uređivanje članova kluba.</p>
+      <a class="btn btn-primary" href="{% url 'member_list' %}">Otvori članove →</a>
+    </div>
+
+    <div class="card">
+      <h2 style="margin:0 0 6px;">Zaroni</h2>
+      <p class="muted" style="margin:0 0 14px;">Evidencija zarona, lokacije, dubine i trajanja.</p>
+      <a class="btn btn-primary" href="{% url 'dive_list' %}">Otvori zarone →</a>
+    </div>
+
+    <div class="card">
+      <h2 style="margin:0 0 6px;">Oprema</h2>
+      <p class="muted" style="margin:0 0 14px;">Pregled opreme i dodjela članovima.</p>
+      <a class="btn btn-primary" href="{% url 'equipment_list' %}">Otvori opremu →</a>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="card">
+    <h3 style="margin:0 0 8px;">Status</h3>
+    <p class="muted" style="margin:0;">
+      Aplikacija radi ✅
+      {% if user.is_authenticated %}
+        • Ulogiran si kao <b>{{ user.username }}</b>.
+      {% else %}
+        • Za rad s podacima potrebno je prijaviti se.
+      {% endif %}
+    </p>
+  </div>
 {% endblock %}

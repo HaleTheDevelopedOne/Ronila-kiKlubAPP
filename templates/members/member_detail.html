@@ -1,23 +1,55 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>{{ member }}</h1>
 
-  <p><b>Email:</b> {{ member.email }}</p>
-  <p><b>Certifikat:</b> {{ member.certification }}</p>
-  <p><b>Učlanjen:</b> {{ member.date_joined }}</p>
+  <div class="header">
+    <div>
+      <h1 class="title">{{ member.first_name }} {{ member.last_name }}</h1>
+      <p class="subtitle">Detalji člana i njegovi zaroni.</p>
+    </div>
 
-  <h3>Zaroni ovog člana</h3>
-  <ul>
-    {% for d in member.dives.all %}
-      <li><a href="{% url 'dive_detail' d.pk %}">{{ d }}</a></li>
-    {% empty %}
-      <li>Nema zabilježenih zarona.</li>
-    {% endfor %}
-  </ul>
+    <div class="actions">
+      <a class="btn" href="{% url 'member_update' member.pk %}">Uredi</a>
+      <a class="btn btn-danger" href="{% url 'member_delete' member.pk %}">Obriši</a>
+      <a class="btn btn-ghost" href="{% url 'member_list' %}">Nazad</a>
+    </div>
+  </div>
 
-  <p>
-    <a href="{% url 'member_update' member.pk %}">Uredi</a> |
-    <a href="{% url 'member_delete' member.pk %}">Obriši</a> |
-    <a href="{% url 'member_list' %}">Nazad</a>
-  </p>
+  <div class="row">
+    <div class="card">
+      <h3 style="margin:0 0 10px;">Podaci</h3>
+      <p style="margin:0 0 8px;"><span class="muted">Email:</span> <b>{{ member.email }}</b></p>
+      <p style="margin:0 0 8px;"><span class="muted">Certifikat:</span> <span class="pill">{{ member.certification }}</span></p>
+      <p style="margin:0;"><span class="muted">Učlanjen:</span> <b>{{ member.date_joined }}</b></p>
+    </div>
+
+    <div class="card">
+      <h3 style="margin:0 0 10px;">Zaroni</h3>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Lokacija</th>
+            <th>Datum</th>
+            <th>Akcije</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in member.dives.all %}
+            <tr>
+              <td><b>{{ d.location }}</b></td>
+              <td class="muted">{{ d.date }}</td>
+              <td>
+                <div class="actions">
+                  <a class="btn" href="{% url 'dive_detail' d.pk %}">Detalji</a>
+                </div>
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="3" class="muted">Nema zabilježenih zarona.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 {% endblock %}

@@ -1,13 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Zaron: {{ dive.location }} ({{ dive.date }})</h1>
-  <p><b>Član:</b> <a href="{% url 'member_detail' dive.member.pk %}">{{ dive.member }}</a></p>
-  <p><b>Dubina:</b> {{ dive.depth }} m</p>
-  <p><b>Trajanje:</b> {{ dive.duration }} min</p>
 
-  <p>
-    <a href="{% url 'dive_update' dive.pk %}">Uredi</a> |
-    <a href="{% url 'dive_delete' dive.pk %}">Obriši</a> |
-    <a href="{% url 'dive_list' %}">Nazad</a>
-  </p>
+  <div class="header">
+    <div>
+      <h1 class="title">{{ dive.location }}</h1>
+      <p class="subtitle">Datum: <b>{{ dive.date }}</b> • Član: <b>{{ dive.member }}</b></p>
+    </div>
+
+    <div class="actions">
+      <a class="btn" href="{% url 'dive_update' dive.pk %}">Uredi</a>
+      <a class="btn btn-danger" href="{% url 'dive_delete' dive.pk %}">Obriši</a>
+      <a class="btn btn-ghost" href="{% url 'dive_list' %}">Nazad</a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="card">
+      <h3 style="margin:0 0 10px;">Podaci o zaronu</h3>
+      <p style="margin:0 0 8px;"><span class="muted">Lokacija:</span> <b>{{ dive.location }}</b></p>
+      <p style="margin:0 0 8px;"><span class="muted">Dubina:</span> <b>{{ dive.depth }} m</b></p>
+      <p style="margin:0 0 8px;"><span class="muted">Trajanje:</span> <b>{{ dive.duration }} min</b></p>
+      <p style="margin:0;"><span class="muted">Član:</span>
+        <a href="{% url 'member_detail' dive.member.pk %}"><b>{{ dive.member }}</b></a>
+      </p>
+    </div>
+
+    <div class="card">
+      <h3 style="margin:0 0 10px;">Brzi linkovi</h3>
+      <div class="actions">
+        <a class="btn btn-primary" href="{% url 'dive_create' %}">+ Novi zaron</a>
+        <a class="btn" href="{% url 'member_list' %}">Članovi</a>
+        <a class="btn" href="{% url 'equipment_list' %}">Oprema</a>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}

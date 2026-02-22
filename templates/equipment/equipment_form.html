@@ -1,11 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>{% if object %}Uredi opremu{% else %}Nova oprema{% endif %}</h1>
 
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Spremi</button>
-    <a href="{% url 'equipment_list' %}">Odustani</a>
-  </form>
+  <div class="header">
+    <div>
+      <h1 class="title">{% if object %}Uredi opremu{% else %}Nova oprema{% endif %}</h1>
+      <p class="subtitle">Unesi podatke i spremi.</p>
+    </div>
+    <a class="btn btn-ghost" href="{% url 'equipment_list' %}">Nazad</a>
+  </div>
+
+  <div class="card">
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="actions">
+        <button class="btn btn-primary" type="submit">Spremi</button>
+        <a class="btn" href="{% url 'equipment_list' %}">Odustani</a>
+      </div>
+    </form>
+  </div>
+
 {% endblock %}

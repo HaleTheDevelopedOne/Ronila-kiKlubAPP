@@ -1,11 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Brisanje zarona</h1>
-  <p>Jesi siguran da želiš obrisati: <b>{{ object }}</b>?</p>
 
-  <form method="post">
-    {% csrf_token %}
-    <button type="submit">Da, obriši</button>
-    <a href="{% url 'dive_detail' object.pk %}">Ne</a>
-  </form>
+  <div class="header">
+    <div>
+      <h1 class="title">Brisanje zarona</h1>
+      <p class="subtitle">Potvrdi brisanje zapisa o zaronu.</p>
+    </div>
+    <a class="btn btn-ghost" href="{% url 'dive_detail' object.pk %}">Nazad</a>
+  </div>
+
+  <div class="card">
+    <p>Jesi siguran da želiš obrisati: <b>{{ object }}</b>?</p>
+    <form method="post">
+      {% csrf_token %}
+      <div class="actions">
+        <button class="btn btn-danger" type="submit">Da, obriši</button>
+        <a class="btn" href="{% url 'dive_detail' object.pk %}">Ne</a>
+      </div>
+    </form>
+  </div>
+
 {% endblock %}

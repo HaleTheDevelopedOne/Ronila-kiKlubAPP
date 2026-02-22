@@ -2,20 +2,292 @@
 <html lang="hr">
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ronilački klub</title>
+
+  <style>
+    :root {
+      --bg: #0b1220;
+      --panel: #111a2e;
+      --panel-2: #0f172a;
+      --text: #e5e7eb;
+      --muted: #a7b0c0;
+      --border: rgba(255, 255, 255, 0.08);
+      --accent: #38bdf8;
+      --accent-2: #22c55e;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: radial-gradient(1200px 600px at 15% 0%, rgba(56,189,248,.18), transparent 60%),
+                  radial-gradient(1200px 600px at 85% 10%, rgba(34,197,94,.14), transparent 55%),
+                  var(--bg);
+      line-height: 1.5;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container {
+      width: min(1050px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 18px 0 48px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(11,18,32,.75);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      width: min(1050px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 12px 0;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-left, .nav-right {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(17,26,46,.7);
+      box-shadow: var(--shadow);
+      font-weight: 700;
+    }
+
+    .badge {
+      font-size: 12px;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(17,26,46,.55);
+    }
+
+    .nav a.navlink {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(17,26,46,.5);
+      text-decoration: none;
+      color: var(--text);
+    }
+    .nav a.navlink:hover {
+      border-color: rgba(56,189,248,.35);
+      background: rgba(17,26,46,.75);
+    }
+
+    .card {
+      background: rgba(17,26,46,.75);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 18px 0 14px;
+    }
+
+    .title {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: .2px;
+    }
+
+    .subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .row > * { flex: 1; min-width: 220px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,.75);
+      color: var(--text);
+      text-decoration: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .btn:hover {
+      border-color: rgba(56,189,248,.35);
+      background: rgba(15,23,42,.95);
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: rgba(56,189,248,.14);
+      border-color: rgba(56,189,248,.35);
+    }
+
+    .btn-danger {
+      background: rgba(239,68,68,.14);
+      border-color: rgba(239,68,68,.35);
+    }
+
+    .btn-ghost {
+      background: transparent;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 12px 0 16px;
+    }
+
+    form.search {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], select {
+      width: min(360px, 100%);
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,.75);
+      color: var(--text);
+      outline: none;
+    }
+    input::placeholder { color: rgba(167,176,192,.75); }
+    select { width: min(260px, 100%); }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+    .table th, .table td {
+      padding: 12px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .table th {
+      text-align: left;
+      font-size: 13px;
+      color: var(--muted);
+      background: rgba(15,23,42,.75);
+    }
+    .table tr:hover td {
+      background: rgba(15,23,42,.65);
+    }
+
+    .muted { color: var(--muted); }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,.65);
+      font-size: 12px;
+      color: var(--muted);
+      gap: 8px;
+    }
+
+    .pill.good { border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.12); color: #bbf7d0; }
+    .pill.bad { border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.12); color: #fecaca; }
+
+    .actions { display: inline-flex; gap: 8px; flex-wrap: wrap; }
+    .spacer { height: 10px; }
+
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    /* Django form rendering (form.as_p) styling */
+    form .helptext { color: var(--muted); font-size: 12px; }
+    form p { margin: 0 0 12px; }
+    label { display: block; margin: 0 0 6px; color: var(--muted); font-size: 13px; }
+    ul.errorlist { margin: 0 0 10px; padding-left: 18px; color: #fecaca; }
+
+    footer {
+      margin-top: 26px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+  </style>
 </head>
+
 <body>
-  <!-- Jednostavna navigacija kroz aplikaciju -->
-  <nav>
-    <a href="{% url 'home' %}">Home</a> |
-    <a href="{% url 'member_list' %}">Članovi</a> |
-    <a href="{% url 'dive_list' %}">Zaroni</a> |
-    <a href="{% url 'equipment_list' %}">Oprema</a>
-  </nav>
+  <div class="topbar">
+    <div class="nav">
+      <div class="nav-left">
+        <div class="brand">🤿 Ronilački klub</div>
+        <a class="navlink" href="{% url 'home' %}">Home</a>
+        <a class="navlink" href="{% url 'member_list' %}">Članovi</a>
+        <a class="navlink" href="{% url 'dive_list' %}">Zaroni</a>
+        <a class="navlink" href="{% url 'equipment_list' %}">Oprema</a>
+      </div>
 
-  <hr>
+      <div class="nav-right">
+        {% if user.is_authenticated %}
+          <span class="badge">Prijavljen: <b>{{ user.username }}</b></span>
+          <a class="navlink" href="{% url 'logout' %}">Odjava</a>
+        {% else %}
+          <a class="navlink" href="{% url 'login' %}">Prijava</a>
+          <a class="navlink" href="{% url 'signup' %}">Registracija</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 
-  <!-- Ovo je mjesto gdje se “ubacuju” sadržaji drugih templatea -->
-  {% block content %}{% endblock %}
+  <div class="container">
+    {% block content %}{% endblock %}
+
+    <footer>
+      © {{ now|date:"Y" }} Ronilački klub • Django aplikacija
+    </footer>
+  </div>
 </body>
 </html>

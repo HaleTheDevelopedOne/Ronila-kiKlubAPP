@@ -1,25 +1,55 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Zaroni</h1>
 
-  <form method="get">
-    <input type="text" name="q" placeholder="Pretraga (lokacija/član)..." value="{{ request.GET.q }}">
-    <button type="submit">Traži</button>
-    <a href="{% url 'dive_list' %}">Reset</a>
-  </form>
+  <div class="header">
+    <div>
+      <h1 class="title">Zaroni</h1>
+      <p class="subtitle">Evidencija zarona + pretraga po lokaciji/članu.</p>
+    </div>
+    <a class="btn btn-primary" href="{% url 'dive_create' %}">+ Novi zaron</a>
+  </div>
 
-  <p><a href="{% url 'dive_create' %}">+ Novi zaron</a></p>
+  <div class="card">
+    <div class="toolbar">
+      <form class="search" method="get">
+        <input type="text" name="q" placeholder="Pretraga (lokacija ili član)..." value="{{ request.GET.q }}">
+        <button class="btn" type="submit">Traži</button>
+        <a class="btn btn-ghost" href="{% url 'dive_list' %}">Reset</a>
+      </form>
+    </div>
 
-  <ul>
-    {% for d in dives %}
-      <li>
-        <a href="{% url 'dive_detail' d.pk %}">{{ d }}</a>
-        ({{ d.member }})
-        - <a href="{% url 'dive_update' d.pk %}">Uredi</a>
-        - <a href="{% url 'dive_delete' d.pk %}">Obriši</a>
-      </li>
-    {% empty %}
-      <li>Nema zarona.</li>
-    {% endfor %}
-  </ul>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Datum</th>
+          <th>Lokacija</th>
+          <th>Član</th>
+          <th>Dubina</th>
+          <th>Trajanje</th>
+          <th style="width: 260px;">Akcije</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for d in dives %}
+          <tr>
+            <td class="muted">{{ d.date }}</td>
+            <td><a href="{% url 'dive_detail' d.pk %}"><b>{{ d.location }}</b></a></td>
+            <td class="muted">{{ d.member }}</td>
+            <td class="muted">{{ d.depth }} m</td>
+            <td class="muted">{{ d.duration }} min</td>
+            <td>
+              <div class="actions">
+                <a class="btn" href="{% url 'dive_detail' d.pk %}">Detalji</a>
+                <a class="btn" href="{% url 'dive_update' d.pk %}">Uredi</a>
+                <a class="btn btn-danger" href="{% url 'dive_delete' d.pk %}">Obriši</a>
+              </div>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="6" class="muted">Nema zarona.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
 {% endblock %}

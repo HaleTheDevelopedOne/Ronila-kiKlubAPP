@@ -1,35 +1,74 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Oprema</h1>
 
-  <form method="get">
-    <input type="text" name="q" placeholder="Pretraga po nazivu..." value="{{ request.GET.q }}">
+  <div class="header">
+    <div>
+      <h1 class="title">Oprema</h1>
+      <p class="subtitle">Pregled opreme + pretraga + filter po tipu.</p>
+    </div>
+    <a class="btn btn-primary" href="{% url 'equipment_create' %}">+ Nova oprema</a>
+  </div>
 
-    <select name="type">
-      <option value="">Svi tipovi</option>
-      <option value="tank" {% if request.GET.type == "tank" %}selected{% endif %}>Boca</option>
-      <option value="fins" {% if request.GET.type == "fins" %}selected{% endif %}>Peraje</option>
-      <option value="suit" {% if request.GET.type == "suit" %}selected{% endif %}>Odijelo</option>
-      <option value="mask" {% if request.GET.type == "mask" %}selected{% endif %}>Maska</option>
-    </select>
+  <div class="card">
+    <div class="toolbar">
+      <form class="search" method="get">
+        <input type="text" name="q" placeholder="Pretraga po nazivu..." value="{{ request.GET.q }}">
 
-    <button type="submit">Filtriraj</button>
-    <a href="{% url 'equipment_list' %}">Reset</a>
-  </form>
+        <select name="type">
+          <option value="">Svi tipovi</option>
+          <option value="tank" {% if request.GET.type == "tank" %}selected{% endif %}>Boca</option>
+          <option value="fins" {% if request.GET.type == "fins" %}selected{% endif %}>Peraje</option>
+          <option value="suit" {% if request.GET.type == "suit" %}selected{% endif %}>Odijelo</option>
+          <option value="mask" {% if request.GET.type == "mask" %}selected{% endif %}>Maska</option>
+        </select>
 
-  <p><a href="{% url 'equipment_create' %}">+ Nova oprema</a></p>
+        <button class="btn" type="submit">Filtriraj</button>
+        <a class="btn btn-ghost" href="{% url 'equipment_list' %}">Reset</a>
+      </form>
+    </div>
 
-  <ul>
-    {% for e in equipment %}
-      <li>
-        <a href="{% url 'equipment_detail' e.pk %}">{{ e.name }}</a>
-        ({{ e.get_equipment_type_display }})
-        {% if e.member %}- dodijeljeno: {{ e.member }}{% endif %}
-        - <a href="{% url 'equipment_update' e.pk %}">Uredi</a>
-        - <a href="{% url 'equipment_delete' e.pk %}">Obriši</a>
-      </li>
-    {% empty %}
-      <li>Nema opreme.</li>
-    {% endfor %}
-  </ul>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Naziv</th>
+          <th>Tip</th>
+          <th>Ispravnost</th>
+          <th>Dodijeljena</th>
+          <th style="width: 260px;">Akcije</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in equipment %}
+          <tr>
+            <td><a href="{% url 'equipment_detail' e.pk %}"><b>{{ e.name }}</b></a></td>
+            <td><span class="pill">{{ e.get_equipment_type_display }}</span></td>
+            <td>
+              {% if e.is_functional %}
+                <span class="pill good">Ispravna</span>
+              {% else %}
+                <span class="pill bad">Neispravna</span>
+              {% endif %}
+            </td>
+            <td class="muted">
+              {% if e.member %}
+                {{ e.member }}
+              {% else %}
+                Nije dodijeljena
+              {% endif %}
+            </td>
+            <td>
+              <div class="actions">
+                <a class="btn" href="{% url 'equipment_detail' e.pk %}">Detalji</a>
+                <a class="btn" href="{% url 'equipment_update' e.pk %}">Uredi</a>
+                <a class="btn btn-danger" href="{% url 'equipment_delete' e.pk %}">Obriši</a>
+              </div>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5" class="muted">Nema opreme.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
 {% endblock %}

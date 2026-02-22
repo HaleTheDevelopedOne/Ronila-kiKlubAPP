@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <div class="header">
+    <div>
+      <h1 class="title">Prijava</h1>
+      <p class="subtitle">Prijavi se da možeš upravljati podacima.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="actions">
+        <button class="btn btn-primary" type="submit">Prijavi se</button>
+        <a class="btn btn-ghost" href="{% url 'home' %}">Nazad</a>
+      </div>
+    </form>
+
+    <div class="spacer"></div>
+
+    <p class="muted" style="margin:0;">
+      Nemaš račun?
+      <a href="{% url 'signup' %}"><b>Registriraj se</b></a>
+    </p>
+  </div>
+
+{% endblock %}

@@ -1,11 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>{% if object %}Uredi zaron{% else %}Novi zaron{% endif %}</h1>
 
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Spremi</button>
-    <a href="{% url 'dive_list' %}">Odustani</a>
-  </form>
+  <div class="header">
+    <div>
+      <h1 class="title">{% if object %}Uredi zaron{% else %}Novi zaron{% endif %}</h1>
+      <p class="subtitle">Unesi podatke o zaronu i spremi.</p>
+    </div>
+    <a class="btn btn-ghost" href="{% url 'dive_list' %}">Nazad</a>
+  </div>
+
+  <div class="card">
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="actions">
+        <button class="btn btn-primary" type="submit">Spremi</button>
+        <a class="btn" href="{% url 'dive_list' %}">Odustani</a>
+      </div>
+    </form>
+  </div>
+
 {% endblock %}

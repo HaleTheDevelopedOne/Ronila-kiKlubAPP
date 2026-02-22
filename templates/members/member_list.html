@@ -1,38 +1,75 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Članovi</h1>
 
-  <form method="get">
-    <input type="text" name="q" placeholder="Pretraga..." value="{{ request.GET.q }}">
-    <button type="submit">Traži</button>
-    <a href="{% url 'member_list' %}">Reset</a>
-  </form>
-
-  <p><a href="{% url 'member_create' %}">+ Novi član</a></p>
-
-  <ul>
-    {% for m in members %}
-      <li>
-        <a href="{% url 'member_detail' m.pk %}">{{ m }}</a>
-        - <a href="{% url 'member_update' m.pk %}">Uredi</a>
-        - <a href="{% url 'member_delete' m.pk %}">Obriši</a>
-      </li>
-    {% empty %}
-      <li>Nema članova.</li>
-    {% endfor %}
-  </ul>
-
-  {% if is_paginated %}
+  <div class="header">
     <div>
-      {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Prethodna</a>
-      {% endif %}
-
-      Stranica {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
-
-      {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Sljedeća</a>
-      {% endif %}
+      <h1 class="title">Članovi</h1>
+      <p class="subtitle">Lista članova kluba + brza pretraga.</p>
     </div>
-  {% endif %}
+    <a class="btn btn-primary" href="{% url 'member_create' %}">+ Novi član</a>
+  </div>
+
+  <div class="card">
+    <div class="toolbar">
+      <form class="search" method="get">
+        <input type="text" name="q" placeholder="Pretraga (ime, prezime, email, certifikat)..." value="{{ request.GET.q }}">
+        <button class="btn" type="submit">Traži</button>
+        <a class="btn btn-ghost" href="{% url 'member_list' %}">Reset</a>
+      </form>
+
+      <span class="pill">Ukupno: <b>{{ page_obj.paginator.count|default:members|length }}</b></span>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Član</th>
+          <th>Email</th>
+          <th>Certifikat</th>
+          <th style="width: 260px;">Akcije</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for m in members %}
+          <tr>
+            <td>
+              <a href="{% url 'member_detail' m.pk %}"><b>{{ m.first_name }} {{ m.last_name }}</b></a>
+            </td>
+            <td class="muted">{{ m.email }}</td>
+            <td><span class="pill">{{ m.certification }}</span></td>
+            <td>
+              <div class="actions">
+                <a class="btn" href="{% url 'member_detail' m.pk %}">Detalji</a>
+                <a class="btn" href="{% url 'member_update' m.pk %}">Uredi</a>
+                <a class="btn btn-danger" href="{% url 'member_delete' m.pk %}">Obriši</a>
+              </div>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4" class="muted">Nema članova.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% if is_paginated %}
+      <div class="pagination">
+        <div>
+          {% if page_obj.has_previous %}
+            <a class="btn" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">← Prethodna</a>
+          {% endif %}
+        </div>
+
+        <div class="muted">
+          Stranica <b>{{ page_obj.number }}</b> / <b>{{ page_obj.paginator.num_pages }}</b>
+        </div>
+
+        <div>
+          {% if page_obj.has_next %}
+            <a class="btn" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Sljedeća →</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
 {% endblock %}

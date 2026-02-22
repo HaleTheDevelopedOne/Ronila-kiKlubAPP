@@ -1,13 +1,48 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>{{ item.name }}</h1>
-  <p><b>Tip:</b> {{ item.get_equipment_type_display }}</p>
-  <p><b>Ispravna:</b> {{ item.is_functional }}</p>
-  <p><b>Dodijeljena članu:</b> {% if item.member %}{{ item.member }}{% else %}Nije dodijeljena{% endif %}</p>
 
-  <p>
-    <a href="{% url 'equipment_update' item.pk %}">Uredi</a> |
-    <a href="{% url 'equipment_delete' item.pk %}">Obriši</a> |
-    <a href="{% url 'equipment_list' %}">Nazad</a>
-  </p>
+  <div class="header">
+    <div>
+      <h1 class="title">{{ item.name }}</h1>
+      <p class="subtitle">Tip: <b>{{ item.get_equipment_type_display }}</b></p>
+    </div>
+
+    <div class="actions">
+      <a class="btn" href="{% url 'equipment_update' item.pk %}">Uredi</a>
+      <a class="btn btn-danger" href="{% url 'equipment_delete' item.pk %}">Obriši</a>
+      <a class="btn btn-ghost" href="{% url 'equipment_list' %}">Nazad</a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="card">
+      <h3 style="margin:0 0 10px;">Status</h3>
+      <p style="margin:0 0 10px;">
+        {% if item.is_functional %}
+          <span class="pill good">Ispravna</span>
+        {% else %}
+          <span class="pill bad">Neispravna</span>
+        {% endif %}
+      </p>
+
+      <p style="margin:0;">
+        <span class="muted">Dodijeljena članu:</span>
+        {% if item.member %}
+          <a href="{% url 'member_detail' item.member.pk %}"><b>{{ item.member }}</b></a>
+        {% else %}
+          <b>Nije dodijeljena</b>
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="card">
+      <h3 style="margin:0 0 10px;">Brzi linkovi</h3>
+      <div class="actions">
+        <a class="btn btn-primary" href="{% url 'equipment_create' %}">+ Nova oprema</a>
+        <a class="btn" href="{% url 'member_list' %}">Članovi</a>
+        <a class="btn" href="{% url 'dive_list' %}">Zaroni</a>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
