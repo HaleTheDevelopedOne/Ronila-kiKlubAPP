@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Brisanje zarona</h1>
+  <p>Jesi siguran da želiš obrisati: <b>{{ object }}</b>?</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Da, obriši</button>
+    <a href="{% url 'dive_detail' object.pk %}">Ne</a>
+  </form>
+{% endblock %}

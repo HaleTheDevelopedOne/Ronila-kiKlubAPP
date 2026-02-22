@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>{{ member }}</h1>
+
+  <p><b>Email:</b> {{ member.email }}</p>
+  <p><b>Certifikat:</b> {{ member.certification }}</p>
+  <p><b>Učlanjen:</b> {{ member.date_joined }}</p>
+
+  <h3>Zaroni ovog člana</h3>
+  <ul>
+    {% for d in member.dives.all %}
+      <li><a href="{% url 'dive_detail' d.pk %}">{{ d }}</a></li>
+    {% empty %}
+      <li>Nema zabilježenih zarona.</li>
+    {% endfor %}
+  </ul>
+
+  <p>
+    <a href="{% url 'member_update' member.pk %}">Uredi</a> |
+    <a href="{% url 'member_delete' member.pk %}">Obriši</a> |
+    <a href="{% url 'member_list' %}">Nazad</a>
+  </p>
+{% endblock %}

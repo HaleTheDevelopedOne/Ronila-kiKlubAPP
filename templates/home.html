@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Ronilački klub - Dashboard</h1>
+  <p>Aplikacija radi ✅</p>
+
+  <ul>
+    <li><a href="{% url 'member_list' %}">Upravljanje članovima</a></li>
+    <li><a href="{% url 'dive_list' %}">Upravljanje zaronima</a></li>
+    <li><a href="{% url 'equipment_list' %}">Upravljanje opremom</a></li>
+  </ul>
+{% endblock %}

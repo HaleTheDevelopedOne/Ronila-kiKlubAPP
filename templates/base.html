@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="hr">
+<head>
+  <meta charset="utf-8" />
+  <title>Ronilački klub</title>
+</head>
+<body>
+  <!-- Jednostavna navigacija kroz aplikaciju -->
+  <nav>
+    <a href="{% url 'home' %}">Home</a> |
+    <a href="{% url 'member_list' %}">Članovi</a> |
+    <a href="{% url 'dive_list' %}">Zaroni</a> |
+    <a href="{% url 'equipment_list' %}">Oprema</a>
+  </nav>
+
+  <hr>
+
+  <!-- Ovo je mjesto gdje se “ubacuju” sadržaji drugih templatea -->
+  {% block content %}{% endblock %}
+</body>
+</html>

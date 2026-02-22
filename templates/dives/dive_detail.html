@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Zaron: {{ dive.location }} ({{ dive.date }})</h1>
+  <p><b>Član:</b> <a href="{% url 'member_detail' dive.member.pk %}">{{ dive.member }}</a></p>
+  <p><b>Dubina:</b> {{ dive.depth }} m</p>
+  <p><b>Trajanje:</b> {{ dive.duration }} min</p>
+
+  <p>
+    <a href="{% url 'dive_update' dive.pk %}">Uredi</a> |
+    <a href="{% url 'dive_delete' dive.pk %}">Obriši</a> |
+    <a href="{% url 'dive_list' %}">Nazad</a>
+  </p>
+{% endblock %}

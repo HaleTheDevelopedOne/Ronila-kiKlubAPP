@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>{{ item.name }}</h1>
+  <p><b>Tip:</b> {{ item.get_equipment_type_display }}</p>
+  <p><b>Ispravna:</b> {{ item.is_functional }}</p>
+  <p><b>Dodijeljena članu:</b> {% if item.member %}{{ item.member }}{% else %}Nije dodijeljena{% endif %}</p>
+
+  <p>
+    <a href="{% url 'equipment_update' item.pk %}">Uredi</a> |
+    <a href="{% url 'equipment_delete' item.pk %}">Obriši</a> |
+    <a href="{% url 'equipment_list' %}">Nazad</a>
+  </p>
+{% endblock %}

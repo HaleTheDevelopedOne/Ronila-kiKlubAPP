@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Zaroni</h1>
+
+  <form method="get">
+    <input type="text" name="q" placeholder="Pretraga (lokacija/član)..." value="{{ request.GET.q }}">
+    <button type="submit">Traži</button>
+    <a href="{% url 'dive_list' %}">Reset</a>
+  </form>
+
+  <p><a href="{% url 'dive_create' %}">+ Novi zaron</a></p>
+
+  <ul>
+    {% for d in dives %}
+      <li>
+        <a href="{% url 'dive_detail' d.pk %}">{{ d }}</a>
+        ({{ d.member }})
+        - <a href="{% url 'dive_update' d.pk %}">Uredi</a>
+        - <a href="{% url 'dive_delete' d.pk %}">Obriši</a>
+      </li>
+    {% empty %}
+      <li>Nema zarona.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
